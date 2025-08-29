@@ -1,0 +1,22 @@
+@import "tailwindcss";
+:root {
+  background-color: #fff;
+  color: black;
+  font-family:sans-serif; 
+}
+
+body, #root {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  overflow-x: hidden;
+}
+@theme{
+  --color-primary:#064617;
+  --color-secondary:#A5BA08;
+  --color-text: #323232;
+  --color-accent: #BEFA3F;
+}
