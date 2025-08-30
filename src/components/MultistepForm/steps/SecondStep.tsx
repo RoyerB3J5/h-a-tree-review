@@ -1,28 +1,53 @@
 import { useForm } from "react-hook-form";
-import { selectStepSchema, type SelectStepFormValues } from "../types";
+import {
+  selectStepSchema,
+  type SelectStepFormValues,
+  SELECT_OPTIONS,
+} from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 type Props = {
   defaultValues?: Partial<SelectStepFormValues>;
   onNext: (values: SelectStepFormValues) => void;
+  onBack?: () => void;
 };
 
-export default function SecondStep({ defaultValues, onNext }: Props) {
+export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<SelectStepFormValues>({
     resolver: zodResolver(selectStepSchema),
-    defaultValues: { option: undefined, ...defaultValues } as any,
+    defaultValues: {
+      need: SELECT_OPTIONS[0].label,
+      custom: "",
+      ...defaultValues,
+    } as any,
     mode: "onTouched",
   });
   const selected = watch("need");
+  const custom = watch("custom");
+  // when user types in custom input, deselect radios; if custom becomes empty, restore default
+  useEffect(() => {
+    if (custom && custom.trim().length) {
+      setValue("need", "");
+    } else {
+      // restore default label
+      setValue("need", SELECT_OPTIONS[0].label);
+    }
+  }, [custom, setValue]);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
   function onSubmit(values: SelectStepFormValues) {
-    onNext(values);
+    // If user wrote custom text, prefer that as need
+    const out = { ...values };
+    if (values.custom && values.custom.trim().length) {
+      out.need = values.custom.trim();
+    }
+    onNext(out);
   }
   return (
     <div className="max-w-md mx-auto pt-2 h-full flex flex-col">
@@ -39,31 +64,43 @@ export default function SecondStep({ defaultValues, onNext }: Props) {
         className="mt-5 flex flex-col justify-between items-start flex-1 "
       >
         <div className="w-full flex flex-col justify-center items-center gap-2 px-4">
-          <div role="radiogroup" aria-label="Options" className="flex flex-col w-full">
+          <div
+            role="radiogroup"
+            aria-label="Options"
+            className="flex flex-col w-full border border-gray-300 rounded-[10px] overflow-hidden divide-y divide-gray-300"
+          >
             {[
               { id: "trees", label: "Trees" },
               { id: "shrubs_bushes", label: "Shrubs or bushes" },
               { id: "both", label: "Both trees and shrubs" },
             ].map((o) => {
-              const isSelected = selected === o.id;
+              // store label as the value so collected data contains the human-readable text
+              const isSelected = selected === o.label;
               return (
                 <label
                   key={o.id}
-                  className={`select-none cursor-pointer rounded-full px-4 py-3 border transition 
-                ${
-                  isSelected
-                    ? "bg-accent text-white border-accent-700"
-                    : "bg-white text-gray-800 border-gray-300"
-                }`}
+                  className={`flex items-center gap-3 w-full select-none cursor-pointer px-4 py-4 text-left transition 
+                    ${
+                      isSelected ? "bg-[#F5F5F2]" : "bg-white text-gray-800"
+                    } first:rounded-t-[10px] last:rounded-b-[10px]`}
                 >
                   <input
                     {...register("need")}
                     type="radio"
-                    value={o.id}
-                    className="sr-only"
+                    value={o.label}
+                    className="sr-only peer"
                     aria-checked={isSelected}
                   />
-                  <span>{o.label}</span>
+                  <span
+                    className={`flex items-center justify-center w-5 h-5 rounded-full border-2 transition-colors
+                      ${isSelected ? "border-primary" : "border-gray-400"}`}
+                  >
+                    <span
+                      className={`block w-2.5 h-2.5 rounded-full bg-primary transform transition-transform duration-150
+                        ${isSelected ? "scale-100" : "scale-0"}`}
+                    />
+                  </span>
+                  <span className="flex-1">{o.label}</span>
                 </label>
               );
             })}
@@ -75,15 +112,34 @@ export default function SecondStep({ defaultValues, onNext }: Props) {
           )}
         </div>
 
-        <div className="w-full border-t border-gray-200 py-4 flex justify-center items-center">
-          <button
-            type="submit"
-            className="w-full py-3 rounded bg-accent mx-4 text-[16px] font-bold text-primary"
-          >
-            Next
-          </button>
+        <div className="w-full border-t border-gray-200 py-4 flex justify-center items-center flex-col gap-3">
+          <div className="w-full px-4">
+            <input
+              {...register("custom")}
+              type="text"
+              className="w-full border rounded-[15px] text-gray-500 leading-[22px] text-[16px] p-4 bg-[#F5F5F2] border-gray-300 focus:outline-none focus:border-gray-400 "
+              placeholder="Tell us in your own words.."
+            />
+          </div>
+
+          <div className="flex justify-center items-center gap-3 px-4 w-full">
+            <button
+              type="button"
+              onClick={() => onBack && onBack()}
+              className="w-1/3 py-3 rounded border border-gray-300 text-[16px] font-semibold"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              className="w-full py-3 rounded bg-accent text-[16px] font-bold text-primary border border-accent"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </form>
     </div>
   );
 }
+/**MapBox */

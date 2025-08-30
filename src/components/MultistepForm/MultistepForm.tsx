@@ -1,6 +1,10 @@
 import { useState } from "react";
 import ZipStep from "./steps/ZipStep";
-import type { MultistepCollected, SelectStepFormValues, ZipStepFormValues } from "./types";
+import type {
+  MultistepCollected,
+  SelectStepFormValues,
+  ZipStepFormValues,
+} from "./types";
 import SecondStep from "./steps/SecondStep";
 
 export default function MultistepForm({
@@ -29,7 +33,12 @@ export default function MultistepForm({
   return (
     <section className="h-[calc(100dvh-83px)] w-full">
       {step === 0 && <ZipStep onNext={handleNextZip} />}
-      {step === 1 && <SecondStep onNext={handleNextSecond} />}
+      {step === 1 && (
+        <SecondStep
+          onNext={handleNextSecond}
+          onBack={() => setStep((s) => s - 1)}
+        />
+      )}
       {step > 1 && (
         <div className="p-4">
           <p className="mb-3">(siguientes pasos faltantes) Step {step + 1}</p>
