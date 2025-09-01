@@ -1,51 +1,51 @@
 import { useForm } from "react-hook-form";
 import {
-  selectStepSchema,
-  type SelectStepFormValues,
-  SELECT_OPTIONS,
+  selectStep3Schema,
+  type SelectStep3FormValues,
+  SELECT_OPTIONS_3,
 } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useEffect } from "react";
 
 type Props = {
-  defaultValues?: Partial<SelectStepFormValues>;
-  onNext: (values: SelectStepFormValues) => void;
+  defaultValues?: Partial<SelectStep3FormValues>;
+  onNext: (values: SelectStep3FormValues) => void;
   onBack?: () => void;
 };
 
-export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
+export default function ThirdStep({ defaultValues, onNext, onBack }: Props) {
   const {
     register,
     handleSubmit,
     watch,
     setValue,
     formState: { errors },
-  } = useForm<SelectStepFormValues>({
-    resolver: zodResolver(selectStepSchema),
+  } = useForm<SelectStep3FormValues>({
+    resolver: zodResolver(selectStep3Schema),
     defaultValues: {
-      need: SELECT_OPTIONS[0].label,
+      need: SELECT_OPTIONS_3[0].label,
       custom: "",
       ...defaultValues,
     } as any,
     mode: "onTouched",
   });
-  const selected = watch("need");
+  const selected = watch("service");
   const custom = watch("custom");
   // when user types in custom input, deselect radios; if custom becomes empty, restore default
   useEffect(() => {
     if (custom && custom.trim().length) {
-      setValue("need", "");
+      setValue("service", "");
     } else {
       // restore default label
-      setValue("need", SELECT_OPTIONS[0].label);
+      setValue("service", SELECT_OPTIONS_3[0].label);
     }
   }, [custom, setValue]);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
-  function onSubmit(values: SelectStepFormValues) {
+  function onSubmit(values: SelectStep3FormValues) {
     // If user wrote custom text, prefer that as need
     const out = { ...values };
     if (values.custom && values.custom.trim().length) {
-      out.need = values.custom.trim();
+      out.service = values.custom.trim();
     }
     onNext(out);
   }
@@ -56,7 +56,7 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
         tabIndex={-1}
         className="font-bold text-[24px] text-start leading-[30px] p-4"
       >
-        What do you need trimmed or removed?
+        What type of tree service is needed?
       </h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -70,9 +70,8 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
             className="flex flex-col w-full border border-gray-300 rounded-[10px] overflow-hidden divide-y divide-gray-300"
           >
             {[
-              { id: "trees", label: "Trees" },
-              { id: "shrubs_bushes", label: "Shrubs or bushes" },
-              { id: "both", label: "Both trees and shrubs" },
+              { id: "removal", label: "Removal" },
+              { id: "trimming_thinning", label: "Trimming or thinning" },
             ].map((o) => {
               // store label as the value so collected data contains the human-readable text
               const isSelected = selected === o.label;
@@ -85,7 +84,7 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
                     } first:rounded-t-[10px] last:rounded-b-[10px]`}
                 >
                   <input
-                    {...register("need")}
+                    {...register("service")}
                     type="radio"
                     value={o.label}
                     className="sr-only peer"
@@ -105,9 +104,9 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
               );
             })}
           </div>
-          {errors.need && (
+          {errors.service && (
             <p role="alert" className="text-red-600 text-sm mt-2">
-              {errors.need.message}
+              {errors.service.message}
             </p>
           )}
         </div>
@@ -142,4 +141,3 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
     </div>
   );
 }
-/**MapBox */

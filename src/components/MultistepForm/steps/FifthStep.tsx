@@ -1,51 +1,51 @@
 import { useForm } from "react-hook-form";
 import {
-  selectStepSchema,
-  type SelectStepFormValues,
-  SELECT_OPTIONS,
+  selectStep5Schema,
+  type SelectStep5FormValues,
+  SELECT_OPTIONS_5,
 } from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useEffect } from "react";
 
 type Props = {
-  defaultValues?: Partial<SelectStepFormValues>;
-  onNext: (values: SelectStepFormValues) => void;
+  defaultValues?: Partial<SelectStep5FormValues>;
+  onNext: (values: SelectStep5FormValues) => void;
   onBack?: () => void;
 };
 
-export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
+export default function FifthStep({ defaultValues, onNext, onBack }: Props) {
   const {
     register,
     handleSubmit,
     watch,
     setValue,
     formState: { errors },
-  } = useForm<SelectStepFormValues>({
-    resolver: zodResolver(selectStepSchema),
+  } = useForm<SelectStep5FormValues>({
+    resolver: zodResolver(selectStep5Schema),
     defaultValues: {
-      need: SELECT_OPTIONS[0].label,
+      time: SELECT_OPTIONS_5[0].label,
       custom: "",
       ...defaultValues,
     } as any,
     mode: "onTouched",
   });
-  const selected = watch("need");
+  const selected = watch("time");
   const custom = watch("custom");
   // when user types in custom input, deselect radios; if custom becomes empty, restore default
   useEffect(() => {
     if (custom && custom.trim().length) {
-      setValue("need", "");
+      setValue("time", "");
     } else {
       // restore default label
-      setValue("need", SELECT_OPTIONS[0].label);
+      setValue("time", SELECT_OPTIONS_5[0].label);
     }
   }, [custom, setValue]);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
-  function onSubmit(values: SelectStepFormValues) {
+  function onSubmit(values: SelectStep5FormValues) {
     // If user wrote custom text, prefer that as need
     const out = { ...values };
     if (values.custom && values.custom.trim().length) {
-      out.need = values.custom.trim();
+      out.time = values.custom.trim();
     }
     onNext(out);
   }
@@ -56,7 +56,7 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
         tabIndex={-1}
         className="font-bold text-[24px] text-start leading-[30px] p-4"
       >
-        What do you need trimmed or removed?
+        When do you need this work done?
       </h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -70,9 +70,12 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
             className="flex flex-col w-full border border-gray-300 rounded-[10px] overflow-hidden divide-y divide-gray-300"
           >
             {[
-              { id: "trees", label: "Trees" },
-              { id: "shrubs_bushes", label: "Shrubs or bushes" },
-              { id: "both", label: "Both trees and shrubs" },
+              { id: "in_2_weeks", label: "Within 2 weeks" },
+              { id: "more_2_weeks", label: "More than 2 weeks" },
+              {
+                id: "not_sure",
+                label: "Not sure - still planning/budgeting",
+              },
             ].map((o) => {
               // store label as the value so collected data contains the human-readable text
               const isSelected = selected === o.label;
@@ -85,7 +88,7 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
                     } first:rounded-t-[10px] last:rounded-b-[10px]`}
                 >
                   <input
-                    {...register("need")}
+                    {...register("time")}
                     type="radio"
                     value={o.label}
                     className="sr-only peer"
@@ -105,9 +108,9 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
               );
             })}
           </div>
-          {errors.need && (
+          {errors.time && (
             <p role="alert" className="text-red-600 text-sm mt-2">
-              {errors.need.message}
+              {errors.time.message}
             </p>
           )}
         </div>
@@ -142,4 +145,3 @@ export default function SecondStep({ defaultValues, onNext, onBack }: Props) {
     </div>
   );
 }
-/**MapBox */

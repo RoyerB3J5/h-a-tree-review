@@ -154,7 +154,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
         noValidate
         className="mt-5 flex flex-col justify-between items-start flex-1 "
       >
-        <div className="w-full px-4">
+        <div className="w-full px-5">
           <label className="font-medium text-[16px] ">
             Enter the location of your project
           </label>
@@ -164,7 +164,9 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
               name="postalCode"
               placeholder="ZIP Code"
               className={`flex-1 p-3 border rounded focus:outline-none focus:border-gray-700 focus:border-2 ${
-                errors.postalCode ? "border-red-500 focus:border-red-700" : "border-gray-300"
+                errors.postalCode
+                  ? "border-red-500 focus:border-red-700"
+                  : "border-gray-300"
               }`}
               aria-invalid={errors.postalCode ? "true" : "false"}
               aria-describedby={errors.postalCode ? "zip-error" : undefined}
@@ -175,7 +177,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
               onClick={handleUseLocation}
               disabled={geoLoading}
               title="Use device location"
-              className="px-4 py-3 border border-gray-300 rounded bg-white flex items-center justify-center"
+              className="px-5 py-3 border border-gray-300 rounded bg-white flex items-center justify-center"
               aria-pressed={geoLoading}
             >
               {geoLoading ? (
