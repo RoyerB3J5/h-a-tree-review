@@ -1,19 +1,23 @@
 import { useState } from "react";
 import ZipStep from "./steps/ZipStep";
-import type {
-  MultistepCollected,
-  SelectStep3FormValues,
-  SelectStep4FormValues,
-  SelectStep5FormValues,
-  SelectStepFormValues,
-  Step6FormValues,
-  ZipStepFormValues,
+import {
+  type MultistepCollected,
+  type SelectStep3FormValues,
+  type SelectStep4FormValues,
+  type SelectStep5FormValues,
+  type SelectStepFormValues,
+  type Step6FormValues,
+  type Step7FormValues,
+  type Step8FormValues,
+  type ZipStepFormValues,
 } from "./types";
+import Step7 from "./steps/Step7";
 import SecondStep from "./steps/SecondStep";
 import ThirdStep from "./steps/ThirdStep";
 import FourthStep from "./steps/FourthStep";
 import FifthStep from "./steps/FifthStep";
 import SixStep from "./steps/SixStep";
+import Step8 from "./steps/Step8";
 
 export default function MultistepForm({
   onFinish,
@@ -46,6 +50,14 @@ export default function MultistepForm({
   }
   function handleNextSixth(values: Step6FormValues) {
     setCollected((c) => ({ ...c, project: values }));
+    setStep((s) => s + 1);
+  }
+  function handleNextSeventh(values: Step7FormValues) {
+    setCollected((c) => ({ ...c, address: values }));
+    setStep((s) => s + 1);
+  }
+  function handleNextEighth(values: Step8FormValues) {
+    setCollected((c) => ({ ...c, contact: values }));
     setStep((s) => s + 1);
   }
   function handleFinish() {
@@ -86,7 +98,21 @@ export default function MultistepForm({
           onBack={() => setStep((s) => s - 1)}
         />
       )}
-      {step > 5 && (
+      {step === 6 && (
+        <Step7
+          defaultValues={collected.address}
+          expectedZip={collected.zip?.postalCode}
+          onBack={() => setStep((s) => s - 1)}
+          onNext={handleNextSeventh}
+        />
+      )}
+      {step === 7 && (
+        <Step8
+          defaultValues={collected.contact}
+          onNext={handleNextEighth}
+        />
+      )}
+      {step > 7 && (
         <div className="p-4">
           <p className="mb-3">(siguientes pasos faltantes) Step {step + 1}</p>
           <button

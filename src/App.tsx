@@ -1,3 +1,4 @@
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import MultistepForm from "./components/MultistepForm/MultistepForm";
 
@@ -7,6 +8,7 @@ function App() {
     <>
       <Header />
       <MultistepForm />
+      <Footer />
     </>
   );
 }

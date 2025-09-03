@@ -58,15 +58,33 @@ export const selectStep5Schema = z.object({
 });
 
 export const Step6Schema = z.object({
-  project: z.string().max(2000,"Max 2000 caracteres").optional(),
-})
+  project: z.string().max(2000, "Max 2000 caracteres").optional(),
+});
 
+export const Step7Schema = z.object({
+  street: z.string().min(1, "Please enter a street name"),
+  city: z.string().min(1, "Please enter a city name"),
+  postalCode: zipStepSchema.shape.postalCode, // re-use validation
+});
+
+export const Step8Schema = z.object({
+  name: z.string().min(2, "Please enter your name"),
+  lastname: z.string().min(2, "Please enter your last name"),
+  phone: z
+    .string()
+    .min(7, "Please enter a valid phone number")
+    .max(15, "Please enter a valid phone number"),
+  email: z.email("Please enter a valid email"),
+  accept: z.boolean().optional(),
+});
 export type ZipStepFormValues = z.infer<typeof zipStepSchema>;
 export type SelectStepFormValues = z.infer<typeof selectStepSchema>;
 export type SelectStep3FormValues = z.infer<typeof selectStep3Schema>;
 export type SelectStep4FormValues = z.infer<typeof selectStep4Schema>;
 export type SelectStep5FormValues = z.infer<typeof selectStep5Schema>;
 export type Step6FormValues = z.infer<typeof Step6Schema>;
+export type Step7FormValues = z.infer<typeof Step7Schema>;
+export type Step8FormValues = z.infer<typeof Step8Schema>;
 /** Contenedor para los datos recogidos por el multistep. Añade otros pasos aquí. */
 export type MultistepCollected = {
   zip?: ZipStepFormValues;
@@ -75,5 +93,6 @@ export type MultistepCollected = {
   location?: SelectStep4FormValues;
   time?: SelectStep5FormValues;
   project?: Step6FormValues;
-  // otros pasos: address?, contact?, etc.
+  address?: Step7FormValues;
+  contact?: Step8FormValues;
 };
