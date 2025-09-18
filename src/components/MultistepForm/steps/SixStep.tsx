@@ -40,19 +40,19 @@ export default function SixStep({ defaultValues, onNext, onBack }: Props) {
     onNext({ project: trimmed && trimmed.length ? trimmed : undefined });
   }
   return (
-    <div className="max-w-md mx-auto pt-2 h-full flex flex-col">
+    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4">
       <h3
         tabIndex={-1}
-        className="font-bold text-[24px] text-start leading-[30px] p-4"
+        className="font-bold text-[24px] text-center leading-[30px] py-8"
       >
         Please tell us a little about your project.
       </h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="mt-2 flex flex-col justify-between items-start flex-1 "
+        className="flex flex-col justify-between items-start  bg-white pt-6 pb-4 rounded-t-[8px] shadow-custom"
       >
-        <div className="w-full flex flex-col justify-center items-center gap-2 px-5">
+        <div className="w-full flex flex-col justify-center items-center gap-2 px-4 pb-6 mt-4">
           <textarea
             id="project"
             {...register("project")}
@@ -80,18 +80,18 @@ export default function SixStep({ defaultValues, onNext, onBack }: Props) {
           )}
         </div>
 
-        <div className="w-full border-t border-gray-200 py-4 flex justify-center items-center flex-col gap-3">
+        <div className="w-full border-t border-gray-200 pt-4 pb-2 flex justify-center items-center flex-col gap-5">
           <div className="flex justify-center items-center gap-3 px-5 w-full">
             <button
               type="button"
               onClick={() => onBack && onBack()}
-              className="w-1/3 py-3 rounded border border-gray-300 text-[16px] font-semibold"
+              className="w-1/2 py-3 rounded border-2 border-secondary text-[16px] font-semibold text-secondary"
             >
-              Back
+              Previous
             </button>
             <button
               type="submit"
-              className="w-full py-3 rounded bg-accent text-[16px] font-bold text-primary border border-accent"
+              className="w-1/2 py-3  rounded bg-accent text-[16px] font-bold text-primary border-2 border-accent"
             >
               Next
             </button>

@@ -1,13 +1,25 @@
 import { useForm } from "react-hook-form";
-import { Step8Schema, type Step8FormValues } from "../types";
+import {
+  Step8Schema,
+  type Step8FormValues,
+  type SelectStepFormValues,
+  type SelectStep3FormValues,
+} from "../types";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
   defaultValues?: Partial<Step8FormValues>;
   onNext: (values: Step8FormValues) => void;
+  select?: SelectStepFormValues;
+  services?: SelectStep3FormValues;
 };
 
-export default function Step8({ defaultValues, onNext }: Props) {
+export default function Step8({
+  defaultValues,
+  onNext,
+  select,
+  services,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -42,21 +54,35 @@ export default function Step8({ defaultValues, onNext }: Props) {
     });
   }
   const inputBase =
-    "peer w-full h-14 px-3 pt-2 pb-0 border-2 rounded-[5px] bg-white focus:outline-none transition-colors duration-150 placeholder-transparent";
+    "peer w-full h-14 px-3 pt-2 pb-0 border-2 rounded bg-white focus:outline-none transition-colors duration-150 placeholder-transparent bg-stone-50";
 
   return (
-    <div className="max-w-md mx-auto pt-2 h-full flex flex-col">
+    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4">
       <h3
         tabIndex={-1}
-        className="font-bold text-[24px] text-start leading-[30px] p-4"
+        className="font-bold text-[24px] text-start leading-[30px] py-8"
       >
         We have matching pros in your area!
       </h3>
-
+      {/* summary of previous choices (read-only) */}
+      <div className="flex items-center justify-start gap-1 pb-8">
+        <p className="text-[16px] font-medium">Project:</p>
+        {select && (
+          <p className="text-[16px] font-medium">
+            {select.need}
+          </p>
+        )}
+        {services && (
+          <p className="text-[16px] font-medium">
+            {services.service}
+          
+          </p>
+        )}
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="mt-2 flex flex-col justify-start items-start gap-6"
+        className="flex flex-col justify-between items-start  bg-white pt-6 pb-4 rounded-t-[8px] shadow-custom"
       >
         <div className="w-full flex flex-col justify-center items-center gap-3 px-5">
           <div className="flex justify-center items-center gap-4 w-full">
@@ -210,7 +236,7 @@ export default function Step8({ defaultValues, onNext }: Props) {
               )}
             </div>
           )}
-          <label className="flex justify-start items-center gap-2 cursor-pointer w-full mt-2">
+          <label className="flex justify-start items-center gap-2 cursor-pointer w-full mt-2 mb-5">
             <input
               type="checkbox"
               {...register("accept")}
@@ -231,15 +257,25 @@ export default function Step8({ defaultValues, onNext }: Props) {
             Send
           </button>
         </div>
+        <p className="text-[12px] text-left text-gray-400 px-5 mt-5">
+          By clicking View matching pros, I agree to{" "}
+          <span className="text-primary font-medium underline">
+            H&A Tree's Terms
+          </span>{" "}
+          and{" "}
+          <span className="text-primary font-medium underline">
+            Privacy Policy
+          </span>
+          , and that H&A Tree and its{" "}
+          <span className="text-primary font-medium underline">
+            service professionals,
+          </span>{" "}
+          or parties acting on their behalf, may use automated technology and
+          prerecorded messages to deliver marketing calls or texts regarding my
+          project and future projects to the number I provided. Consent is not a
+          condition of service.
+        </p>
       </form>
-      <p className="text-[12px] text-left text-gray-400 px-5 mt-5">
-        By clicking View matching pros, I agree to <span className="text-primary font-medium underline">H&A Tree's Terms</span> and <span className="text-primary font-medium underline">Privacy Policy</span>
-        , and that H&A Tree and its <span className="text-primary font-medium underline">service professionals,</span> or parties
-        acting on their behalf, may use automated technology and prerecorded
-        messages to deliver marketing calls or texts regarding my project and
-        future projects to the number I provided. Consent is not a condition of
-        service.
-      </p>
     </div>
   );
 }

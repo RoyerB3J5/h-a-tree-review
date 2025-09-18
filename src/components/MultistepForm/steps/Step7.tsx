@@ -58,13 +58,13 @@ export default function Step7({
 
   // helper para añadir clase de error
   const inputBase =
-    "peer w-full h-14 px-3 pt-2 pb-0 border-2 rounded bg-white focus:outline-none transition-colors duration-150 placeholder-transparent";
+    "peer w-full h-14 px-3 pt-2 pb-0 border-2 rounded bg-white focus:outline-none transition-colors duration-150 placeholder-transparent bg-stone-50";
 
   return (
-    <div className="max-w-md mx-auto pt-2 h-full flex flex-col">
+    <div className="max-w-md mx-auto pt-2 h-full flex flex-col px-6 bg-stone-50">
       <h3
         tabIndex={-1}
-        className="font-bold text-[24px] text-start leading-[30px] p-4"
+        className="font-bold text-[24px] text-start leading-[30px] py-4"
       >
         What's your project address?
       </h3>
@@ -72,9 +72,9 @@ export default function Step7({
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="mt-2 flex flex-col justify-between items-start flex-1"
+        className="mt-2 flex flex-col justify-between items-start "
       >
-        <div className="w-full flex flex-col justify-center items-center gap-3 px-5">
+        <div className="w-full flex flex-col justify-center items-center gap-3 ">
           {/* STREET */}
           <div className="w-full relative">
             <input
@@ -86,7 +86,7 @@ export default function Step7({
                 inputBase +
                 (errors.street
                   ? " border-red-600 focus:border-red-600"
-                  : " border-gray-300 focus:border-gray-700")
+                  : " border-gray-200 focus:border-gray-400")
               }
               placeholder=" " /* important: single space so placeholder-shown works */
               autoComplete="street-address"
@@ -124,7 +124,7 @@ export default function Step7({
                 inputBase +
                 (errors.city
                   ? " border-red-600 focus:border-red-600"
-                  : " border-gray-300 focus:border-gray-700")
+                  : " border-gray-200 focus:border-gray-400")
               }
               placeholder=" "
               autoComplete="address-level2"
@@ -206,17 +206,17 @@ export default function Step7({
         </div>
 
         <div className="w-full border-t border-gray-200 py-4 flex justify-center items-center flex-col gap-3">
-          <div className="flex justify-center items-center gap-3 px-5 w-full">
+          <div className="flex justify-center items-center gap-3  w-full">
             <button
               type="button"
               onClick={() => onBack && onBack()}
-              className="w-1/3 py-3 rounded border border-gray-300 text-[16px] font-semibold"
+              className="w-1/2 py-3 rounded border-2 border-secondary text-[16px] font-semibold text-secondary"
             >
-              Back
+              Previous
             </button>
             <button
               type="submit"
-              className="w-full py-3 rounded bg-accent text-[16px] font-bold text-primary border border-accent"
+              className="w-1/2 py-3  rounded bg-accent text-[16px] font-bold text-primary border-2 border-accent"
             >
               Next
             </button>

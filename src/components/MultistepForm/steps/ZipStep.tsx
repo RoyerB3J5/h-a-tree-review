@@ -141,29 +141,29 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
   }
 
   return (
-    <div className="max-w-md mx-auto pt-2 h-full flex flex-col">
+    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4">
       <h3
         ref={titleRef}
         tabIndex={-1}
-        className="font-bold text-[24px] text-start leading-[30px] p-4"
+        className="font-bold text-[24px] text-center leading-[30px] py-8"
       >
         Compare quotes from top-rated Tree or Shrub Removal & Trimming Services
       </h3>
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="mt-5 flex flex-col justify-between items-start flex-1 "
+        className="flex flex-col justify-between items-start bg-white pt-6 pb-5 rounded-t-[8px] shadow-custom "
       >
-        <div className="w-full px-5">
-          <label className="font-medium text-[16px] ">
+        <div className="w-full px-4 flex flex-col justify-center items-center mb-8">
+          <label className="font-semibold text-[16px] text-center leading-[44px]  ">
             Enter the location of your project
           </label>
-          <div className="flex items-stretch gap-2 mt-5">
+          <div className="flex items-stretch gap-2 mt-5 w-full">
             <input
               {...register("postalCode")}
               name="postalCode"
               placeholder="ZIP Code"
-              className={`flex-1 p-3 border rounded focus:outline-none focus:border-gray-700 focus:border-2 ${
+              className={`bg-stone-50 flex-1 p-3 border rounded focus:outline-none focus:border-gray-700 focus:border-2 ${
                 errors.postalCode
                   ? "border-red-500 focus:border-red-700"
                   : "border-gray-300"
@@ -177,7 +177,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
               onClick={handleUseLocation}
               disabled={geoLoading}
               title="Use device location"
-              className="px-5 py-3 border border-gray-300 rounded bg-white flex items-center justify-center"
+              className="px-5 py-3 border border-gray-300 rounded bg-stone-50 flex items-center justify-center"
               aria-pressed={geoLoading}
             >
               {geoLoading ? (
@@ -224,7 +224,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
           </div>
         </div>
 
-        <div className="w-full border-t border-gray-200 py-4 flex justify-center items-center">
+        <div className="w-full border-t border-gray-200 pt-5 flex justify-center items-center">
           <button
             type="submit"
             className="w-full py-3 rounded bg-accent mx-4 text-[16px] font-bold text-primary"
