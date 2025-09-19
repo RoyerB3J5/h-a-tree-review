@@ -20,6 +20,7 @@ import SixStep from "./steps/SixStep";
 import Loading from "../Loading";
 import Step8 from "./steps/Step8";
 import Quotes from "../Quotes";
+import Last from "../Last";
 
 
 export default function MultistepForm({
@@ -91,6 +92,10 @@ export default function MultistepForm({
     changeStep(1);
     setHeaderActive(1);
   }
+  function handleNextQuote() {
+    changeStep(1);
+    setHeaderActive(2);
+  }
   function handleFinish() {
     if (onFinish) onFinish(collected);
     else console.log("Collected multistep data:", collected);
@@ -133,8 +138,9 @@ export default function MultistepForm({
       services={collected.services}
       onNext={handleNextEighth}
     />,
-    <Quotes key={8} />,
-    <div key={9} className="p-4">
+    <Quotes key={8} onNext={handleNextQuote} />,
+    <Last key={9} />,
+    <div key={10} className="p-4">
       <p className="mb-3">(siguientes pasos faltantes) Step {step + 1}</p>
       <button
         onClick={handleFinish}

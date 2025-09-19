@@ -70,10 +70,8 @@ export const Step7Schema = z.object({
 export const Step8Schema = z.object({
   name: z.string().min(2, "Please enter your name"),
   lastname: z.string().min(2, "Please enter your last name"),
-  phone: z
-    .string()
-    .min(7, "Please enter a valid phone number")
-    .max(15, "Please enter a valid phone number"),
+  // store phone in the canonical form: +1 followed by 10 digits (e.g. +11234567890)
+  phone: z.string().regex(/^\+1\d{10}$/, "Please enter a valid phone number"),
   email: z.email("Please enter a valid email"),
   accept: z.boolean().optional(),
 });

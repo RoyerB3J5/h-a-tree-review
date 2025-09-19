@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {
   Step8Schema,
   type Step8FormValues,
@@ -24,6 +24,7 @@ export default function Step8({
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm<Step8FormValues>({
     resolver: zodResolver(Step8Schema),
@@ -39,9 +40,21 @@ export default function Step8({
   });
   const lastname = watch("lastname");
   const phone = watch("phone");
+
+  function formatPhoneDigits(input = "") {
+    const digits = input.replace(/\D/g, "").slice(0, 10);
+    const part1 = digits.slice(0, 3);
+    const part2 = digits.slice(3, 6);
+    const part3 = digits.slice(6, 10);
+    if (part3) return `(${part1}) ${part2}-${part3}`;
+    if (part2) return `(${part1}) ${part2}`;
+    if (part1) return `(${part1}`;
+    return "";
+  }
   function onSubmit(values: Step8FormValues) {
     const n = values.name?.trim();
     const l = values.lastname?.trim();
+    // phone is stored in canonical +1XXXXXXXXXX form in the form state
     const p = values.phone?.trim();
     const e = values.email?.trim();
     const a = values.accept;
@@ -67,16 +80,9 @@ export default function Step8({
       {/* summary of previous choices (read-only) */}
       <div className="flex items-center justify-start gap-1 pb-8">
         <p className="text-[16px] font-medium">Project:</p>
-        {select && (
-          <p className="text-[16px] font-medium">
-            {select.need}
-          </p>
-        )}
+        {select && <p className="text-[16px] font-medium">{select.need}</p>}
         {services && (
-          <p className="text-[16px] font-medium">
-            {services.service}
-          
-          </p>
+          <p className="text-[16px] font-medium">{services.service}</p>
         )}
       </div>
       <form
@@ -162,30 +168,58 @@ export default function Step8({
           </div>
           {lastname && lastname.trim() !== "" && (
             <div className="w-full relative">
-              <input
-                id="phone"
-                {...register("phone")}
-                aria-invalid={errors.phone ? "true" : "false"}
-                aria-describedby={errors.phone ? "phone-error" : "phone-help"}
-                className={
-                  inputBase +
-                  (errors.phone
-                    ? " border-red-600 focus:border-red-600"
-                    : " border-gray-300 focus:border-gray-700")
-                }
-                placeholder=" "
-                autoComplete="phone-level2"
+              {/* Controller handles raw stored value in +1XXXXXXXXXX while rendering formatted text */}
+              <Controller
+                control={control}
+                name="phone"
+                render={({ field }) => {
+                  // field.value is expected to be the stored canonical form (+1XXXXXXXXXX) or empty
+                  const rawDigits = (field.value || "")
+                    .replace(/\D/g, "")
+                    .replace(/^1/, "")
+                    .slice(0, 10);
+                  const display = rawDigits ? formatPhoneDigits(rawDigits) : "";
+                  return (
+                    <>
+                      <input
+                        id="phone"
+                        aria-invalid={errors.phone ? "true" : "false"}
+                        aria-describedby={
+                          errors.phone ? "phone-error" : "phone-help"
+                        }
+                        className={
+                          inputBase +
+                          (errors.phone
+                            ? " border-red-600 focus:border-red-600"
+                            : " border-gray-300 focus:border-gray-700")
+                        }
+                        placeholder=" "
+                        autoComplete="tel"
+                        value={display}
+                        onChange={(e) => {
+                          const digits = e.target.value
+                            .replace(/\D/g, "")
+                            .slice(0, 10);
+                          // store canonical form with +1 prefix when any digits present, otherwise empty string
+                          const stored = digits ? `+1${digits}` : "";
+                          field.onChange(stored);
+                        }}
+                        onBlur={field.onBlur}
+                      />
+                      <label
+                        htmlFor="phone"
+                        className={
+                          "absolute left-3 top-4  flex items-center pointer-events-none transition-all duration-150 ease-in-out text-base text-gray-500 " +
+                          "peer-focus:top-2 peer-focus:translate-y-0  peer-focus:items-start peer-focus:text-xs peer-focus:text-gray-700 " +
+                          "peer-not-placeholder-shown:top-2 peer-not-placeholder-shown:items-start peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-gray-700"
+                        }
+                      >
+                        Phone
+                      </label>
+                    </>
+                  );
+                }}
               />
-              <label
-                htmlFor="phone"
-                className={
-                  "absolute left-3 top-4  flex items-center pointer-events-none transition-all duration-150 ease-in-out text-base text-gray-500 " +
-                  "peer-focus:top-2 peer-focus:translate-y-0  peer-focus:items-start peer-focus:text-xs peer-focus:text-gray-700 " +
-                  "peer-not-placeholder-shown:top-2 peer-not-placeholder-shown:items-start peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-gray-700"
-                }
-              >
-                Phone
-              </label>
 
               {errors.phone && (
                 <p
