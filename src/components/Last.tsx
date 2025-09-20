@@ -43,13 +43,16 @@ export default function Last() {
         <p className="font-bold text-[22px] text-start leading-[30px] ">
           Check another task off your list.
         </p>
-        <div className="flex justify-center items-center w-full overflow-hidden py-2 rounded-full border border-gray-200 pl-4 pr-2">
+        <div className="flex justify-center items-center w-full overflow-hidden py-4 rounded-full border border-gray-200 pl-6 pr-2">
           <input
             type="text"
             placeholder="How can we help?"
             className="focus:outline-none w-[70%] border-r border-gray-200"
           />
-          <p className="w-[30%] text-center">Zip code</p>
+          <div className="flex justify-center items-center gap-3 w-[30%]">
+            <img src="/map.svg" alt="Icono" />
+            <p className=" text-center">Zip code</p>
+          </div>
         </div>
       </div>
       <div className="w-full flex flex-col justify-center items-center gap-5 px-4 mt-14">
@@ -73,6 +76,22 @@ export default function Last() {
             </div>
           </div>
         ))}
+      </div>
+      <p className="text-[12px] text-gray-300 mx-4 py-8">
+        Price shown is the national median price of minimum job size for H&A
+        Tree Brother's pre prices offering. Actual pricing may vary.
+      </p>
+      <div className="bg-accent/20 w-full flex justify-start items-center gap-6 px-7 py-8">
+        <div className="size-[80px] rounded-full bg-primary"></div>
+        <div className="flex flex-col justify-center items-start gap-2">
+          <p className="text-[14px] font-bold leading-[20px]">
+            Prepare your pro. Get the <br /> app to share photos right <br />{" "}
+            from your phone.
+          </p>
+          <a href="#" className="text-primary font-bold text-[14px]">
+            Get the H&A Tree Brother app
+          </a>
+        </div>
       </div>
     </div>
   );

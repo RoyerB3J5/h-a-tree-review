@@ -61,7 +61,7 @@ export default function Step7({
     "peer w-full h-14 px-3 pt-2 pb-0 border-2 rounded bg-white focus:outline-none transition-colors duration-150 placeholder-transparent bg-stone-50";
 
   return (
-    <div className="max-w-md mx-auto pt-2 h-full flex flex-col px-6 bg-stone-50">
+    <div className="max-w-md mx-auto pt-2 h-full flex flex-col px-6 bg-stone-50 w-full">
       <h3
         tabIndex={-1}
         className="font-bold text-[24px] text-start leading-[30px] py-4"

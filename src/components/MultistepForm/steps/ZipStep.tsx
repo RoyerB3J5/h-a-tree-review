@@ -141,7 +141,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
   }
 
   return (
-    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4">
+    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4 ">
       <h3
         ref={titleRef}
         tabIndex={-1}

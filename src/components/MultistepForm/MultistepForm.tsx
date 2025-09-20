@@ -22,7 +22,6 @@ import Step8 from "./steps/Step8";
 import Quotes from "../Quotes";
 import Last from "../Last";
 
-
 export default function MultistepForm({
   onFinish,
   setHeaderActive,
@@ -151,28 +150,65 @@ export default function MultistepForm({
     </div>,
   ];
 
+  const isLast = (steps[step] as any)?.type === Last;
+
   return (
-    <section className="h-[calc(100dvh-83px)] w-full overflow-hidden relative">
-      <div
-        className="absolute left-0 top-0 flex transition-transform duration-500 ease-in-out"
-        style={{
-          transform: `translateX(-${step * 100}vw)`,
-          width: `${steps.length * 100}vw`,
-          height: "100%",
-        }}
-      >
-        {steps.map((node, idx) => (
-          <div
-            key={idx}
-            className="flex-shrink-0"
-            style={{ width: "100vw", height: "100%" }}
-          >
-            {node}
+    <>
+      {isLast ? (
+        <section className="w-full relative">
+          <div className="w-full">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${step * 100}vw)`,
+                width: `${steps.length * 100}vw`,
+              }}
+            >
+              {steps.map((node, idx) => (
+                <div
+                  key={idx}
+                  className="flex-shrink-0"
+                  style={{ width: "100vw" }}
+                >
+                  {node}
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+        </section>
+      ) : (
+        <section
+          style={{ height: "calc(100dvh - 83px)" }}
+          className="w-full relative"
+        >
+          <div
+            className="w-full overflow-x-hidden"
+            style={{ height: "calc(100dvh - 83px)" }}
+          >
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${step * 100}vw)`,
+                width: `${steps.length * 100}vw`,
+                height: "calc(100dvh - 83px)",
+              }}
+            >
+              {steps.map((node, idx) => (
+                <div
+                  key={idx}
+                  className="flex-shrink-0 overflow-auto"
+                  style={{ width: "100vw", height: "calc(100dvh - 83px)" }}
+                >
+                  {node}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* loading overlay shown when moving to next step */}
       {loading && <Loading progressActive={progressActive} />}
-    </section>
+    </>
   );
 }
