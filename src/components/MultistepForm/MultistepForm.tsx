@@ -91,7 +91,13 @@ export default function MultistepForm({
     changeStep(1);
     setHeaderActive(1);
   }
-  function handleNextQuote() {
+  function handleNextQuote(values?: { selectedTitles?: string[] }) {
+    if (values) {
+      setCollected((c) => ({
+        ...c,
+        quotes: { selectedTitles: values.selectedTitles },
+      }));
+    }
     changeStep(1);
     setHeaderActive(2);
   }

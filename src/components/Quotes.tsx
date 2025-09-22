@@ -1,7 +1,8 @@
 import { useState } from "react";
+import type { QuotesStepFormValues } from "./MultistepForm/types";
 
 type Props = {
-  onNext: () => void;
+  onNext: (values: QuotesStepFormValues) => void;
 };
 export default function Quotes({ onNext }: Props) {
   const items = [
@@ -97,7 +98,7 @@ export default function Quotes({ onNext }: Props) {
         <button
           type="submit"
           className="w-full py-3 rounded bg-accent text-[16px] font-bold text-primary border border-accent"
-          onClick={() => onNext()}
+          onClick={() => onNext({ selectedTitles: selected })}
         >
           Request Quote
         </button>

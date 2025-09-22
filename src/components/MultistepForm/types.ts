@@ -83,6 +83,11 @@ export type SelectStep5FormValues = z.infer<typeof selectStep5Schema>;
 export type Step6FormValues = z.infer<typeof Step6Schema>;
 export type Step7FormValues = z.infer<typeof Step7Schema>;
 export type Step8FormValues = z.infer<typeof Step8Schema>;
+/** Quotes step: store one or more selected pro titles */
+export const quotesStepSchema = z.object({
+  selectedTitles: z.array(z.string()).optional(),
+});
+export type QuotesStepFormValues = z.infer<typeof quotesStepSchema>;
 /** Contenedor para los datos recogidos por el multistep. Añade otros pasos aquí. */
 export type MultistepCollected = {
   zip?: ZipStepFormValues;
@@ -93,4 +98,5 @@ export type MultistepCollected = {
   project?: Step6FormValues;
   address?: Step7FormValues;
   contact?: Step8FormValues;
+  quotes?: QuotesStepFormValues;
 };
