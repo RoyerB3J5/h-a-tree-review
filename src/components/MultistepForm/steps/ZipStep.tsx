@@ -141,7 +141,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
   }
 
   return (
-    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4 ">
+    <div className="max-w-md mx-auto  h-full flex flex-col bg-stone-50 px-4 w-full">
       <h3
         ref={titleRef}
         tabIndex={-1}
@@ -152,7 +152,7 @@ export default function ZipStep({ defaultValues, onNext }: Props) {
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        className="flex flex-col justify-between items-start bg-white pt-6 pb-5 rounded-t-[8px] shadow-custom "
+        className="flex flex-col justify-between items-start bg-white pt-6 pb-5 rounded-t-[8px] shadow-custom w-full "
       >
         <div className="w-full px-4 flex flex-col justify-center items-center mb-8">
           <label className="font-semibold text-[16px] text-center leading-[44px]  ">

@@ -173,9 +173,9 @@ export default function MultistepForm({
               {steps.map((node, idx) => (
                 <div
                   key={idx}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 bg-stone-50 "
                   style={{ width: "100vw" }}
-                >
+                > 
                   {node}
                 </div>
               ))}
@@ -202,7 +202,7 @@ export default function MultistepForm({
               {steps.map((node, idx) => (
                 <div
                   key={idx}
-                  className="flex-shrink-0 overflow-auto"
+                  className="flex-shrink-0 overflow-auto bg-stone-50 "
                   style={{ width: "100vw", height: "calc(100dvh - 83px)" }}
                 >
                   {node}
